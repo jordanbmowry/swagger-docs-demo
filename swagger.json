@@ -1,0 +1,316 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Learn Express and Swagger",
+    "description": "Writing Swagger docs with Express",
+    "version": "1.1.0",
+    "contact": {
+      "email": "jordan.mowry@gmail.com",
+      "url": "https://jordanbmowry.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "{protocol}://localhost:4000/api/{version}",
+      "description": "for local host",
+      "variables": {
+        "version": {
+          "enum": ["v1", "v2"],
+          "default": "v1"
+        },
+        "protocol": {
+          "enum": ["http", "https"],
+          "default": "http"
+        }
+      }
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "cookieAuth": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "token"
+      },
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  },
+  "paths": {
+    "/jbm": {
+      "get": {
+        "tags": ["String"],
+        "summary": "returns a greeting from jbm",
+        "responses": {
+          "200": {
+            "description": "All good",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "mystring"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/jbmobject": {
+      "get": {
+        "tags": ["Object"],
+        "summary": "returns a unique course",
+        "responses": {
+          "200": {
+            "description": "All good",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "price": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/courses": {
+      "get": {
+        "tags": ["Array"],
+        "summary": "returns all courses",
+        "responses": {
+          "200": {
+            "description": "All good",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "price": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/mycourse/{courseID}": {
+      "get": {
+        "tags": ["String"],
+        "summary": "returns returns course based on request id",
+        "parameters": [
+          {
+            "name": "courseID",
+            "in": "path",
+            "default": "11",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "All good",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "price": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/addCourse": {
+      "post": {
+        "tags": ["String"],
+        "summary": "adds a new course to existing courses",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "price": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "All good",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/coursequery": {
+      "get": {
+        "tags": ["String"],
+        "summary": "trying to learn about query string",
+        "parameters": [
+          {
+            "name": "location",
+            "in": "query",
+            "required": "true",
+            "schema": {
+              "type": "string",
+              "enum": ["delhi", "london", "jaipur"]
+            }
+          },
+          {
+            "name": "device",
+            "in": "query",
+            "required": "true",
+            "schema": {
+              "type": "string",
+              "enum": ["web", "mobile"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "All good",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "location": {
+                      "type": "string"
+                    },
+                    "device": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/courseupload": {
+      "post": {
+        "tags": ["String"],
+        "summary": "uploading course image",
+        "parameters": [{ "in": "header", "name": "auth" }],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "All good"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    }
+  }
+}
